@@ -7,7 +7,7 @@ setup(name='pjohansson',
       version=version,
       description="My program for Pythonkurs",
       long_description="""\
-              See README.
+              See README.md.
 """,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='pythonkurs scilifelab pjohansson',
