@@ -10,7 +10,7 @@ class CourseRepo(object):
     def required(self):
         """Required files in repository directory structure."""
 
-        return ['.git', 'setup.py',
+        return ['.git', 'setup.py', 'README.md',
                 'scripts/getting_data.py', 'scripts/check_repo.py',
                 self.surname + '/__init__.py', self.surname + '/session3.py'
                 ]
