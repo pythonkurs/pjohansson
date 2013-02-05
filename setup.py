@@ -16,8 +16,10 @@ setup(name='pjohansson',
       url='',
       license='GPLv3',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-      scripts=['scripts/getting_data.py',
-          'scripts/check_repo.py'],
+      scripts=[
+          'scripts/getting_data.py',
+          'scripts/check_repo.py'
+          ],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
