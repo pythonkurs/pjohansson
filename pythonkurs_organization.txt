@@ -1,0 +1,7 @@
+Looking at members in the organisation, I noticed that most did not only
+have a course repository but are using Github for something else as well.
+Counting the repository numbers:
+{1: 12, 2: 11, 3: 8, 0: 4, 4: 3, 5: 3, 8: 2, 9: 2, 6: 1, 15: 1, 18: 1}
+
+Most personnel at SciLifeLab seems to be familiar with Github from before this
+course!
