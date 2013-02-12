@@ -7,13 +7,17 @@ class CourseRepo(object):
         self.surname = surname
 
     @property
-    def required(self):
-        """Required files in repository directory structure."""
+    def surname(self):
+        return self._surname
 
-        return [
+    @surname.setter
+    def surname(self, new_surname):
+        """Set surname and update .required list."""
+        self._surname = new_surname
+        self.required = [
                 '.git', 'setup.py', 'README.md',
                 'scripts/getting_data.py', 'scripts/check_repo.py',
-                self.surname + '/__init__.py', self.surname + '/session3.py'
+                self._surname + '/__init__.py', self.surname + '/session3.py'
                 ]
 
     def check(self):
