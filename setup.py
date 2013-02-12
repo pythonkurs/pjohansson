@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.3'
+version = '0.4'
 
 setup(name='pjohansson',
       version=version,
@@ -24,7 +24,8 @@ setup(name='pjohansson',
       zip_safe=False,
       install_requires=[
           'untangle',
-          'requests'
+          'requests',
+          'pandas'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
