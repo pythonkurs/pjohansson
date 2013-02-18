@@ -4,10 +4,10 @@ from pjohansson.session3 import CourseRepo, RepositoryDirectory
 import os
 import sys
 
-full_path = sys.argv[1]
+relative_path = sys.argv[1]
 
 # Guard against errors from not being able to split one-directory paths
-with RepositoryDirectory(full_path):
+with RepositoryDirectory(relative_path):
     full_path = os.getcwd()
 
 # Split into repository and surname directories, check structure
