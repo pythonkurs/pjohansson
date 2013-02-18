@@ -17,7 +17,7 @@ class CourseRepo(object):
         self.required = [
                 '.git', 'setup.py', 'README.md',
                 'scripts/getting_data.py', 'scripts/check_repo.py',
-                self._surname + '/__init__.py', self.surname + '/session3.py'
+                self._surname + '/__init__.py', self._surname + '/session3.py'
                 ]
 
     def check(self):
