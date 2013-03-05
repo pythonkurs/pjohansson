@@ -1,0 +1,118 @@
+test
+1327
+427813
+165371604888354929348663620105330758526973
+Filename: pyecm.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    76                             	@profile
+    77                             	def invert(a, b):
+    78                             		'''Computes the inverse of a modulo b. b must be odd.
+    79                             
+    80    12.797 MB     0.000 MB   Returns the inverse of a (mod b).'''
+    81    27.574 MB    14.777 MB   		if a == 0 or b == 0:
+    82                             			return 0
+    83                             
+    84    27.574 MB     0.000 MB   		truth = False
+    85    27.574 MB     0.000 MB   		if a < 0:
+    86                             			truth = True
+    87                             			a = -a
+    88                             
+    89    27.574 MB     0.000 MB   		b_orig = b
+    90    27.574 MB     0.000 MB   		alpha = 1
+    91    19.848 MB    -7.727 MB   		beta = 0
+    92                             
+    93    27.555 MB     7.707 MB   		while not a & 1:
+    94    27.555 MB     0.000 MB   			if alpha & 1:
+    95    26.438 MB    -1.117 MB   				alpha += b_orig
+    96    27.555 MB     1.117 MB   			alpha >>= 1
+    97    25.902 MB    -1.652 MB   			a >>= 1
+    98                             
+    99    27.574 MB     1.672 MB   		if b > a:
+   100    27.574 MB     0.000 MB   			a, b = b, a
+   101    12.809 MB   -14.766 MB   			alpha, beta = beta, alpha
+   102                             
+   103    28.043 MB    15.234 MB   		while b != 0 and a != b:
+   104    28.043 MB     0.000 MB   			a -= b
+   105    16.750 MB   -11.293 MB   			alpha -= beta
+   106                             
+   107    28.043 MB    11.293 MB   			while not a & 1:
+   108    28.043 MB     0.000 MB   				if alpha & 1:
+   109    19.535 MB    -8.508 MB   					alpha += b_orig
+   110    28.043 MB     8.508 MB   				alpha >>= 1
+   111    28.043 MB     0.000 MB   				a >>= 1
+   112                             
+   113    28.043 MB     0.000 MB   			if b > a:
+   114    28.043 MB     0.000 MB   				a,b = b,a
+   115    28.043 MB     0.000 MB   				alpha, beta = beta, alpha
+   116                             
+   117    28.043 MB     0.000 MB   		if a == b:
+   118    28.043 MB     0.000 MB   			a -= b
+   119    28.043 MB     0.000 MB   			alpha -= beta
+   120    28.043 MB     0.000 MB   			a, b = b, a
+   121    28.043 MB     0.000 MB   			alpha, beta = beta, alpha
+   122                             
+   123    28.043 MB     0.000 MB   		if a != 1:
+   124    28.043 MB     0.000 MB   			return 0
+   125    12.797 MB   -15.246 MB   
+   126    27.566 MB    14.770 MB   		if truth:
+   127                             			alpha = b_orig - alpha
+   128                             
+   129    27.566 MB     0.000 MB   		return alpha
+
+
+Filename: pyecm.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+   538                             @profile
+   539                             def parallel_invert(l, n):
+   540                             	'''Inverts all elements of a list modulo some number, using 3(n-1) modular multiplications and one inversion.
+   541                             
+   542    12.797 MB     0.000 MB   Returns the list with all elements inverted modulo 3(n-1).'''
+   543    12.809 MB     0.012 MB   	l_ = l[:]
+   544    27.574 MB    14.766 MB   	for i in xrange(len(l)-1):
+   545    27.574 MB     0.000 MB   		l[i+1] = (l[i] * l[i+1]) % n
+   546                             
+   547    28.043 MB     0.469 MB   	inv = invert(l[-1], n)
+   548    28.043 MB     0.000 MB   	if inv == 0:
+   549    28.043 MB     0.000 MB   		return gcd(l[-1], n)
+   550    12.797 MB   -15.246 MB   
+   551    27.570 MB    14.773 MB   	for i in xrange(len(l)-1, 0, -1):
+   552    27.570 MB     0.000 MB   		l[i] = (inv * l[i-1]) % n
+   553    27.570 MB     0.000 MB   		inv = (inv * l_[i]) % n
+   554    27.570 MB     0.000 MB   	l[0] = inv
+   555                             
+   556    27.570 MB     0.000 MB   	return l
+
+
+Filename: pyecm.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+   431                             @profile
+   432                             def double(p, n):
+   433                             	'''Doubles each point in the input list. Much like the add function, we take advantage of fast inversion.
+   434                             
+   435    12.805 MB     0.000 MB   Returns the doubled list.'''
+   436    12.809 MB     0.004 MB   	inv = range(len(p))
+   437                             
+   438    27.555 MB    14.746 MB   	for i in xrange(len(p)):
+   439    27.555 MB     0.000 MB   		inv[i] = p[i][1] << 1
+   440                             
+   441    27.570 MB     0.016 MB   	inv = parallel_invert(inv, n)
+   442                             
+   443    12.809 MB   -14.762 MB   	if not isinstance(inv, list):
+   444                             		return inv
+   445                             
+   446    27.574 MB    14.766 MB   	for i in xrange(len(p)):
+   447    27.574 MB     0.000 MB   		x = p[i][0]
+   448    27.574 MB     0.000 MB   		m = (x * x) % n
+   449    27.574 MB     0.000 MB   		m = ((m + m + m + p[i][2]) * inv[i]) % n
+   450    27.574 MB     0.000 MB   		p[i][0] = (m * m - x - x) % n
+   451    27.574 MB     0.000 MB   		p[i][1] = (m * (x - p[i][0]) - p[i][1]) % n
+   452                             
+   453    27.574 MB     0.000 MB   	return p
+
+
